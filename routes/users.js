@@ -30,12 +30,12 @@ const {
 	destroy,
 } = require("../controllers/UserController");
 const VerifyToken = require("../middleware/Verify Token/VerifyToken");
-router.route("/").get(VerifyToken, index);
+router.route("/").get(VerifyToken, AllowedTo(UserRoles.ADMIN), index);
 router
 	.route("/:id")
 	.get(VerifyToken, show)
 	.put(VerifyToken, validationSchema(), update)
-	.delete(destroy);
+	.delete(VerifyToken, AllowedTo(UserRoles.ADMIN), destroy);
 router.post("/register", upload.single("avatar"), validationSchema(), register);
 router.post("/login", loginValidationSchema(), login);
 router.post("/logout", VerifyToken, logout);
