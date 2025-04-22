@@ -13,7 +13,7 @@ This project is a RESTful API built with Node.js, Express.js, and MongoDB for ma
 - **Database:** MongoDB (with Mongoose ODM)
 - **Authentication:** JWT (JSON Web Tokens)
 - **API Format:** REST
-# Installation
+## Installation
 1. Clone the repository
 ```bash
 git clone https://github.com/Abdelrahmans123/StudyHub.git
@@ -36,16 +36,16 @@ npm run start
 ```bash
 http://localhost:5000/api
 ```
-# API Endpoints
-# Auth
+## API Endpoints
+### Auth
 - `POST /api/auth/register` – Register a new user
 - `POST /api/auth/login` – Login and receive a JWT
-# Users
+### Users
 - `GET /api/users/` – Get all users (admin only)
 - `GET /api/users/:id` – Get user by ID
 - `PUT /api/users/:id` – Update a user (protected)
 - `DELETE /api/users/:id` – Delete a user (admin only)
-# Courses
+### Courses
 - `GET /api/courses` – List all courses (protected)
 - `POST /api/courses` – Create a new course (protected)
 - `GET /api/courses/:id` – Get course details (protected)
