@@ -40,7 +40,7 @@ http://localhost:5000/api
 # Auth
 - `POST /api/auth/register` – Register a new user
 - `POST /api/auth/login` – Login and receive a JWT
-#Users
+# Users
 - `GET /api/users/` – Get all users (admin only)
 - `GET /api/users/:id` – Get user by ID
 - `PUT /api/users/:id` – Update a user (protected)
