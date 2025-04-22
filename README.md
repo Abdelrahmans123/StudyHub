@@ -45,7 +45,6 @@ http://localhost:5000/api
 - `GET /api/users/:id` – Get user by ID
 - `PUT /api/users/:id` – Update a user (protected)
 - `DELETE /api/users/:id` – Delete a user (admin only)
-- 
 # Courses
 - `GET /api/courses` – List all courses (protected)
 - `POST /api/courses` – Create a new course (protected)
