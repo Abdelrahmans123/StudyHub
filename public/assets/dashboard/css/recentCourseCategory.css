@@ -1,0 +1,36 @@
+.right .courseCategory{
+    margin-top: 2rem;
+}
+.right .courseCategory h2{
+    margin-bottom: 0.8rem;
+}
+.right .courseCategory .item{
+    background: var(--color-white);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.7rem;
+    padding: 1.4rem var(--card-padding);
+    border-radius: var(--border-radius-3);
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+}
+.right .courseCategory .item:hover{
+    box-shadow: none;
+}
+.right .courseCategory .item .right{
+    margin: 0;
+    width: 100%;
+}
+.right .courseCategory .item .right .info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.right .courseCategory .item .icons{
+    padding: 0.6rem;
+    color: var(--color-white);
+    border-radius: 50%;
+    display: flex;
+    background: var(--color-primary);
+}

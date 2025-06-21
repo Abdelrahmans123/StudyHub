@@ -1,0 +1,54 @@
+
+.right .top{
+    display: flex;
+    justify-content: end;
+    gap: 2rem;
+    right: 0px;
+    position: relative;
+    top: -359px;
+}
+.menuBar button{
+    display: none;
+}
+.theme-toggle{
+    background: var(--color-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 1.6rem;
+    width: 6.2rem;
+    cursor:pointer;
+    border-radius: var(--border-radius-1);
+}
+.theme-toggle .theme-toggle--icon{
+    font-size: 1.2rem;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.theme-toggle .theme-toggle--icon.active{
+    background: var(--color-primary);
+    color: white;
+    border-radius: var(--border-radius-1);
+}
+.top .profile{
+    display: flex;
+    gap: 2rem;
+    text-align: right;
+}
+.right .recent-course h2{
+    margin-bottom: 0.8rem;
+}
+.right .recent-course .updates{
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+}
+.right .recent-course .updates:hover{
+    box-shadow: none;
+}
+
