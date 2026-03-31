@@ -10,7 +10,7 @@
 @section('content')
     @include('layouts.sidebar')
     <div class="containers">
-    @livewire('show-question',['quizId'=>$id,'studentId'=>$studentId])
+    <livewire:show-question :quizId="$id" :studentId="$studentId" />
 
     </div>
 @endsection

@@ -2,18 +2,31 @@
 
 namespace App\Models;
 
-use App\Models\Degree;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Quiz extends Model
 {
     use HasFactory;
-    public function courses(){
-        return $this->belongsTo(Course::class,'courseId');
-    }
-    public function degree()
+
+    protected $fillable = [
+        'name',
+        'courseId',
+        'instructorId',
+    ];
+
+    public function course()
     {
-        return $this->hasMany(Degree::class,'quizId');
+        return $this->belongsTo(Course::class, 'courseId');
+    }
+
+    public function degrees()
+    {
+        return $this->hasMany(Degree::class, 'quizId');
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'quizId');
     }
 }

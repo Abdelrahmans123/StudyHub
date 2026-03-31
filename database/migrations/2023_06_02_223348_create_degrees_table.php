@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('studentId')->references('id')->on('students')->onDelete('cascade');
             $table->foreignId('questionId')->references('id')->on('questions')->onDelete('cascade');
             $table->float('score');
-            $table->enum('abuse',['0','1'])->default('0');
+            $table->enum('abuse', ['0', '1'])->default('0');
             $table->date('date');
             $table->timestamps();
         });

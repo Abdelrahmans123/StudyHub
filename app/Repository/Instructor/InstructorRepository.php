@@ -9,62 +9,37 @@ use Illuminate\Support\Facades\Hash;
 
 class InstructorRepository implements InstructorRepositoryInterface
 {
+    public function find($id)
+    {
+        return Instructor::findOrFail($id);
+    }
 
     public function store($request)
     {
-        $request->validate(
-            [
-                'instructorName'=>'string|required',
-                'instructorEmail'=>'email|required',
-                'instructorPassword'=>'string|max:8|min:1'
-            ]
-        );
-        if(isset($request->active)){
-            $data=[
-                'name'=>$request->instructorName,
-                'email'=>$request->instructorEmail,
-                'password'=>Hash::make($request->instructorPassword),
-                'active'=>true
-            ];
-        }else{
-            $data=[
-                'name'=>$request->instructorName,
-                'email'=>$request->instructorEmail,
-                'password'=>Hash::make($request->instructorPassword),
-                'active'=>false
-            ];
-        }
-        $user=Instructor::create($data);
+        $data = [
+            'name' => $request->instructorName,
+            'email' => $request->instructorEmail,
+            'password' => Hash::make($request->instructorPassword),
+            'active' => isset($request->active) ? true : false,
+            'img' => 'teacher.png',
+        ];
+
+        $user = Instructor::create($data);
         event(new Registered($user));
-        return redirect('admin/instructors')->with('success','Instructor Added Successfully');
-    }
 
-    public function edit($id)
-    {
-        $instructor=Instructor::findOrFail($id);
-        return view('Pages.Admin.Instructor.edit',compact('instructor'));
+        return redirect('admin/instructors')->with('success', 'Instructor Added Successfully');
     }
-
 
     public function update($request)
     {
-        $id=$request->id;
-        $request->validate(
-            [
-                'instructorName'=>'string|required',
-                'instructorEmail'=>'email|required',
-                'instructorPassword'=>'string|max:8|min:1'
-            ]
-        );
-        $instructor=Instructor::findOrFail($id);
-        $instructor->name=$request->instructorName;
-        $instructor->email=$request->instructorEmail;
-        if(isset($request->active)){
-            $instructor->active=1;
-        }else{
-            $instructor->active=0;
-        }
+        $id = $request->id;
+
+        $instructor = Instructor::findOrFail($id);
+        $instructor->name = $request->instructorName;
+        $instructor->email = $request->instructorEmail;
+        $instructor->active = isset($request->active) ? 1 : 0;
         $instructor->save();
-        return redirect('admin/instructors')->with('success','Instructor Added Successfully');
+
+        return redirect('admin/instructors')->with('success', 'Instructor Updated Successfully');
     }
 }

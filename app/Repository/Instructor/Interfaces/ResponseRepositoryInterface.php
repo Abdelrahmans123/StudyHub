@@ -4,9 +4,7 @@ namespace App\Repository\Instructor\Interfaces;
 
 interface ResponseRepositoryInterface
 {
-    public function index();
-
-    public function create();
+    public function getAll();
 
     public function store($request);
 }

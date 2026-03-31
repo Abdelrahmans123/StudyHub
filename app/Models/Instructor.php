@@ -3,28 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class Instructor extends Authenticatable
 {
     use HasFactory , Notifiable;
-    protected $guard='student';
-    protected $fillable=[
+
+    protected $guard = 'instructor';
+
+    protected $fillable = [
         'name',
         'email',
         'password',
         'active',
-        'img'
+        'img',
     ];
-    protected $hidden=[
+
+    protected $hidden = [
         'password',
-        'remember_token'
+        'remember_token',
     ];
-    protected $casts=[
-        'email_verified_at'=>'datetime'
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
-    public function courses(): \Illuminate\Database\Eloquent\Relations\HasMany
+
+    public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
     }

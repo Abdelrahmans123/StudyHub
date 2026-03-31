@@ -4,7 +4,7 @@ namespace App\Repository\Instructor\Interfaces;
 
 interface AttendanceRepositoryInterface
 {
-    public function index();
+    public function getAllStudents();
 
     public function store($request);
 }

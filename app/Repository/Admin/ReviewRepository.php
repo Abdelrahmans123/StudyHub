@@ -3,13 +3,12 @@
 namespace App\Repository\Admin;
 
 use App\Models\Review;
+use App\Repository\Admin\Interfaces\ReviewRepositoryInterface;
 
-class ReviewRepository implements Interfaces\ReviewRepositoryInterface
+class ReviewRepository implements ReviewRepositoryInterface
 {
-
-    public function index()
+    public function getAll()
     {
-        $review=Review::all();
-        return view('Pages.Admin.Review.index',compact('review'));
+        return Review::with(['student', 'course'])->get();
     }
 }

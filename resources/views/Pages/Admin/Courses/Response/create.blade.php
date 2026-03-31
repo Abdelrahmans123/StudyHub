@@ -67,8 +67,6 @@
                 $('#example1').DataTable();
             });
         </script>
-        @toastr_js
-        @toastr_render
         <script>
             const imageInput = document.getElementById('formFile');
 

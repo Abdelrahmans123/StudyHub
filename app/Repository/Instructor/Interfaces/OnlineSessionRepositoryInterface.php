@@ -4,8 +4,11 @@ namespace App\Repository\Instructor\Interfaces;
 
 interface OnlineSessionRepositoryInterface
 {
-    public function index();
-    public function create();
+    public function getAll();
+
+    public function getInstructorCourses();
+
     public function store($request);
+
     public function destroy($request);
 }

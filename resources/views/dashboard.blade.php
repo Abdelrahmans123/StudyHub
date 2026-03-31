@@ -181,7 +181,7 @@
                                             <div class="d-flex border-top">
                                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>{{$course->instructor->name}}</small>
                                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                                                <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>{{ \App\Models\Student::where('courseId',$course->id)->count() }} Students</small>
+                                                <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>{{ $course->students_count }} Students</small>
                                             </div>
                                         </div>
                                     </div>
@@ -204,7 +204,7 @@
             <div class="row g-4">
     @foreach($instructors as $instructor)
         @php
-            $courses = \App\Models\Course::where('instructor_id', $instructor->id)->pluck('name');
+            $courses = $instructor->courses->pluck('name');
  @endphp
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                                         <div class="team-item bg-light">
@@ -244,7 +244,7 @@
                 <h1 class="mb-5">Our Students Say!</h1>
             </div>
             <div class="owl-carousel testimonial-carousel position-relative">
-                @foreach($review as $item)
+                @foreach($reviews as $item)
                 <div class="testimonial-item text-center">
                                         <img class="border rounded-circle p-2 mx-auto mb-3" src="{{asset('assets/images/'.$item->student->img)}}" style="width: 80px; height: 80px;">
                                         <h5 class="mb-0">{{$item->student->name}}</h5>

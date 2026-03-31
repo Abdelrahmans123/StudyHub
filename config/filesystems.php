@@ -36,13 +36,12 @@ return [
         ],
         'publicUpload' => [
             'driver' => 'local',
-            'root'   => public_path() . '/assets/images',
+            'root' => public_path().'/assets/images',
         ],
         'public_pdf' => [
             'driver' => 'local',
             'root' => public_path().'CourseContent', // The directory to store the files in the public folder.
         ],
-
 
         'public' => [
             'driver' => 'local',

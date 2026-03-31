@@ -2,23 +2,25 @@
 
 namespace App\Models;
 
-
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Degree extends Model
 {
     use HasFactory;
 
-    public function student(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class, 'studentId');
     }
-    public function quiz(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+
+    public function quiz(): BelongsTo
     {
         return $this->belongsTo(Quiz::class, 'quizId');
     }
-    public function question(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+
+    public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class, 'questionId');
     }

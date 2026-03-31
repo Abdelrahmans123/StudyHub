@@ -4,33 +4,30 @@ namespace App\Repository\Student;
 
 use App\Models\Course;
 use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
+use App\Repository\Student\Interfaces\ReviewRepositoryInterface;
 
-class ReviewRepository implements Interfaces\ReviewRepositoryInterface
+class ReviewRepository implements ReviewRepositoryInterface
 {
-
-    public function index()
+    public function getAll()
     {
-        $student=auth()->user();
-        $review=Review::all();
-        return view('Pages.Student.Review.index',compact('student','review'));
+        return Review::all();
     }
 
-    public function create($id)
+    public function getCourse($id)
     {
-        $course=Course::findOrFail($id);
-        return view('Pages.Student.Review.create',compact('course'));
+        return Course::findOrFail($id);
     }
 
     public function store($request)
     {
-        $request->validate([
-            'review'=>'required'
-        ]);
-        $review=new Review();
-        $review->studentId=auth()->user()->id;
-        $review->courseId=$request->id;
-        $review->review=$request->review;
+
+        $review = new Review;
+        $review->studentId = Auth::id();
+        $review->courseId = $request->id;
+        $review->review = $request->review;
         $review->save();
-        return redirect()->route('student.review.index')->with('success','Review is added successfully');
+
+        return redirect()->route('student.review.index')->with('success', 'Review is added successfully');
     }
 }

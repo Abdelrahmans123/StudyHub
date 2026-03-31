@@ -7,9 +7,8 @@ use App\Repository\Instructor\Interfaces\CourseRepositoryInterface;
 
 class CourseRepository implements CourseRepositoryInterface
 {
-    public function show($id)
+    public function find($id)
     {
-        $courses=Course::find($id);
-        return view('Pages.Instructor.Response.show',compact('courses'));
+        return Course::find($id);
     }
 }

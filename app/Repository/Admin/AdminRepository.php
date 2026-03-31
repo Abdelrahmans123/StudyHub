@@ -3,18 +3,12 @@
 namespace App\Repository\Admin;
 
 use App\Models\Instructor;
+use App\Repository\Admin\Interfaces\AdminRepositoryInterface;
 
-class AdminRepository implements Interfaces\AdminRepositoryInterface
+class AdminRepository implements AdminRepositoryInterface
 {
-
-    public function instructorPage()
+    public function getInstructors()
     {
-        $instructors=Instructor::all();
-        return view('Pages.Admin.Instructor.index',compact('instructors'));
-    }
-
-    public function create()
-    {
-        return view('Pages.Admin.Instructor.create');
+        return Instructor::all();
     }
 }

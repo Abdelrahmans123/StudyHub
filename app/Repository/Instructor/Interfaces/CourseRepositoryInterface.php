@@ -4,5 +4,5 @@ namespace App\Repository\Instructor\Interfaces;
 
 interface CourseRepositoryInterface
 {
-    public function show($id);
+    public function find($id);
 }

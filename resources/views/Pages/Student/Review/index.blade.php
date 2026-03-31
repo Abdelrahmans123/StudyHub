@@ -73,6 +73,7 @@
                 </thead>
                 <tbody>
 
+                    @if($student->course)
                     <tr>
                         <td>{{$student->course->name}}</td>
                         <td>
@@ -80,6 +81,11 @@
                                 <a class="btn btn-primary" href="{{ route('student.review.create', $student->course->id) }}"><i class="fa-solid fa-plus"></i></a>
                         </td>
                     </tr>
+                    @else
+                    <tr>
+                        <td colspan="2" class="text-center">No enrolled course found.</td>
+                    </tr>
+                    @endif
 
                 </tbody>
 

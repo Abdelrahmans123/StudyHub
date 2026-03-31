@@ -4,13 +4,13 @@ namespace App\Repository\Instructor\Interfaces;
 
 interface QuizRepositoryInterface
 {
-    public function index();
+    public function getAll();
 
-    public function create();
+    public function getCourses();
+
+    public function find($id);
 
     public function store($request);
-
-    public function edit($id);
 
     public function update($request);
 

@@ -4,78 +4,66 @@ namespace App\Repository\Instructor;
 
 use App\Models\Course;
 use App\Models\Quiz;
+use Illuminate\Support\Facades\Auth;
 use App\Repository\Instructor\Interfaces\QuizRepositoryInterface;
 
 class QuizRepository implements QuizRepositoryInterface
 {
-
-    public function index()
+    public function getAll()
     {
-        $quiz=Quiz::all();
-        return view('Pages.Instructor.Quiz.index',compact('quiz'));
+        return Quiz::all();
     }
 
-    public function create()
+    public function getCourses()
     {
-        $courses=Course::all();
-        return view('Pages.Instructor.Quiz.create',compact('courses'));
+        return Course::all();
+    }
+
+    public function find($id)
+    {
+        return Quiz::findOrFail($id);
     }
 
     public function store($request)
     {
-        $request->validate(
-            [
-                'quizTopic'=>'string|required',
-                'courseId'=>'required|exists:courses,id'
-            ]
-        );
-        try{
-        $quiz=new Quiz();
-        $quiz->name=$request->quizTopic;
-        $quiz->courseId=$request->courseId;
-        $quiz->instructorId=auth()->user()->id;
-        $quiz->save();
-        return redirect()->route('instructor.quiz.index')->with('success','Quiz is Added Successfully');
-    }catch (\Exception $e){
-return redirect()->back()->with(['error'=>$e->getMessage()]);
-}
-    }
 
-    public function edit($id)
-    {
-       $courses=Course::all();
-       $quiz=Quiz::findOrFail($id);
-       return view('Pages.Instructor.Quiz.edit',compact('courses','quiz'));
+        try {
+            $quiz = new Quiz;
+            $quiz->name = $request->quizTopic;
+            $quiz->courseId = $request->courseId;
+            $quiz->instructorId = Auth::user()->id;
+            $quiz->save();
+
+            return redirect()->route('instructor.quiz.index')->with('success', 'Quiz is Added Successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     public function update($request)
     {
-        $request->validate(
-            [
-                'quizTopic'=>'string|required',
-                'courseId'=>'required|exists:courses,id'
-            ]
-        );
 
-        try{
-            $quiz = Quiz::findOrFail($request->input('id')); // Use input('id') instead of $request->id
+        try {
+            $quiz = Quiz::findOrFail($request->input('id'));
             $quiz->name = $request->input('quizTopic');
             $quiz->courseId = $request->input('courseId');
-            $quiz->instructorId = auth()->user()->id;
+            $quiz->instructorId = Auth::user()->id;
             $quiz->save();
-            return redirect()->route('instructor.quiz.index')->with('success','Quiz is Updated Successfully');
-        }catch (\Exception $e){
-            return redirect()->back()->with(['error'=>$e->getMessage()]);
+
+            return redirect()->route('instructor.quiz.index')->with('success', 'Quiz is Updated Successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
         }
     }
 
     public function destroy($request)
     {
-        try{
+        try {
             Quiz::destroy($request->id);
-            return redirect()->route('instructor.quiz.index')->with('success','Quiz is Deleted Successfully');
-        }catch (\Exception $e){
-            return redirect()->back()->with(['error'=>$e->getMessage()]);
+
+            return redirect()->route('instructor.quiz.index')->with('success', 'Quiz is Deleted Successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
         }
     }
 }

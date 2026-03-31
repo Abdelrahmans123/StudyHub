@@ -49,6 +49,7 @@
      <link href="{{asset('assets/dashboard/css/recentCourse.css')}}" rel="stylesheet">
      <link href="{{asset('assets/dashboard/css/recentCourseCategory.css')}}" rel="stylesheet">
      <link href="{{asset('assets/dashboard/css/mediaQuery.css')}}" rel="stylesheet">
+     <link href="{{asset('assets/css/student-tools.css')}}" rel="stylesheet">
         @endif
 
 @if($currenturl==='http://127.0.0.1:8000/register/instructor')

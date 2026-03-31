@@ -3,30 +3,36 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\Course;
-use App\Models\Review;
+use App\Http\Requests\StoreReviewRequest;
 use App\Repository\Student\Interfaces\ReviewRepositoryInterface;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
     protected ReviewRepositoryInterface $repository;
-    public function __construct(ReviewRepositoryInterface $repository){
-        return $this->repository=$repository;
+
+    public function __construct(ReviewRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
     }
+
     public function index()
     {
-        return   $this->repository->index();
+        $student = Auth::user();
+        $review = $this->repository->getAll();
+
+        return view('Pages.Student.Review.index', compact('student', 'review'));
     }
 
     public function create($id)
     {
-        return $this->repository->create($id);
+        $course = $this->repository->getCourse($id);
+
+        return view('Pages.Student.Review.create', compact('course'));
     }
 
-    public function store(Request $request)
+    public function store(StoreReviewRequest $request)
     {
-        return    $this->repository->store($request);
+        return $this->repository->store($request);
     }
-
 }

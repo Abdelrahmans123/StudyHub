@@ -1,8 +1,6 @@
 <?php
 
-use App\Models\Course;
-use App\Models\Instructor;
-use App\Models\Review;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
@@ -17,16 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    $courses = Course::all();
-    $instructors = Instructor::all();
-    $review = Review::all();
-    return view('dashboard', compact('courses', 'instructors'))->with('review', $review);
-})->name('mainDashboard');
+Route::get('/', [DashboardController::class, 'index'])->name('mainDashboard');
 
-Route::get('selection/{type}', function ($type) {
-    return view('selection', compact('type'));
-})->name('selection');
+Route::get('selection/{type}', [DashboardController::class, 'selection'])->name('selection');
 
 Route::get('/dashboard', function () {
     if (auth()->guard('web')->check()) {
@@ -41,6 +32,4 @@ Route::get('/dashboard', function () {
 })->middleware(['redirectIfAuthenticated:web,student,instructor,admin'])
     ->name('dashboard');
 
-
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

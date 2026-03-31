@@ -4,15 +4,15 @@ namespace App\Repository\Instructor\Interfaces;
 
 interface QuestionInterfaceRepository
 {
-    public function index();
+    public function getAll();
 
-    public function created($id);
+    public function findQuiz($id);
 
-    public function create();
+    public function getAllQuizzes();
+
+    public function find($id);
 
     public function store($request);
-
-    public function edit($id);
 
     public function update($request);
 

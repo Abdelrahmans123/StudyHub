@@ -4,5 +4,5 @@ namespace App\Repository\Student\Interfaces;
 
 interface StudentRepositoryInterface
 {
-    public function index();
+    public function getDashboardData();
 }

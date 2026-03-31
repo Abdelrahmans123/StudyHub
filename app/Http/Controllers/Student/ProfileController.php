@@ -9,20 +9,25 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-public function index(){
-    $student=Student::findOrFail(auth()->user()->id);
-    return view('Pages.Student.Profile.index',compact('student'));
-}
-public function update(Request $request,$id){
-    $student=Student::findOrFail($id);
-    if(!empty($request->password)){
-        $student->name=$request->name;
-        $student->password=Hash::make($request->password);
-        $student->save();
-    }else{
-        $student->name=$request->name;
-        $student->save();
+    public function index()
+    {
+        $student = Student::findOrFail(auth()->user()->id);
+
+        return view('Pages.Student.Profile.index', compact('student'));
     }
-    return redirect()->route('student.profile.show')->with('success','Profile is updated successfully');
-}
+
+    public function update(Request $request, $id)
+    {
+        $student = Student::findOrFail($id);
+        if (! empty($request->password)) {
+            $student->name = $request->name;
+            $student->password = Hash::make($request->password);
+            $student->save();
+        } else {
+            $student->name = $request->name;
+            $student->save();
+        }
+
+        return redirect()->route('student.profile.show')->with('success', 'Profile is updated successfully');
+    }
 }

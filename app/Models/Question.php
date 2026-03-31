@@ -8,7 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     use HasFactory;
-    public function quizzes(){
-        return $this->belongsTo(Quiz::class,'quizId');
+
+    protected $fillable = [
+        'title',
+        'answers',
+        'rightAnswer',
+        'score',
+        'quizId',
+    ];
+
+    public function quiz()
+    {
+        return $this->belongsTo(Quiz::class, 'quizId');
     }
 }

@@ -3,32 +3,52 @@
 namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
-use App\Models\Instructor;
+use App\Http\Requests\StoreInstructorRequest;
+use App\Http\Requests\UpdateInstructorRequest;
+use App\Models\Course;
+use App\Models\OnlineSession;
+use App\Models\Student;
 use App\Repository\Instructor\Interfaces\InstructorRepositoryInterface;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class InstructorController extends Controller
 {
     protected InstructorRepositoryInterface $instructor;
-    public function __construct(InstructorRepositoryInterface $instructor){
-        $this->instructor=$instructor;
+
+    public function __construct(InstructorRepositoryInterface $instructor)
+    {
+        $this->instructor = $instructor;
     }
 
-    public function store(Request $request)
+    public function dashboard()
     {
-        return  $this->instructor->store($request);
+        $courseIds = Course::where('instructor_id', Auth::id())->pluck('id');
+        $studentCount = Student::whereIn('courseId', $courseIds)->count();
+        $courseCount = $courseIds->count();
+        $onlineSession = OnlineSession::all();
+
+        return view('Pages.Instructor.dashboard', compact('studentCount', 'courseCount', 'onlineSession'));
+    }
+
+    public function educationalTool()
+    {
+        return view('Pages.Instructor.educationalTool');
+    }
+
+    public function store(StoreInstructorRequest $request)
+    {
+        return $this->instructor->store($request);
     }
 
     public function edit($id)
     {
-        return   $this->instructor->store($id);
+        $instructor = $this->instructor->find($id);
+
+        return view('Pages.Admin.Instructor.edit', compact('instructor'));
     }
 
-    public function update(Request $request)
+    public function update(UpdateInstructorRequest $request)
     {
-        return  $this->instructor->update($request);
+        return $this->instructor->update($request);
     }
-
 }

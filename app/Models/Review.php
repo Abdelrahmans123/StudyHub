@@ -8,10 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
-    public function student(){
-        return $this->belongsTo(Student::class,'studentId');
+
+    protected $fillable = [
+        'studentId',
+        'courseId',
+        'review',
+    ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'studentId');
     }
-    public function course(){
-         return $this->belongsTo(Course::class,'courseId');
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'courseId');
     }
 }

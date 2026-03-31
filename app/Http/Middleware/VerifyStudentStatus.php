@@ -14,7 +14,8 @@ class VerifyStudentStatus
 
         if ($user && $user->active !== 1) {
             Auth::logout();
-            return redirect()->route('login.show','student')->with('error', 'Your account is inactive. Please contact the administrator.');
+
+            return redirect()->route('login.show', 'student')->with('error', 'Your account is inactive. Please contact the administrator.');
         }
 
         return $next($request);

@@ -5,58 +5,14 @@
     <link  href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css" rel="stylesheet" />
 {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>--}}
 
-    <style>
-        #canvas {
-            display: block;
-            margin: auto;
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-        }
-        form{
-            position: relative;
-            top: 90%;
-            width: 100%;
-            height: 300px;
-            left: 20%;
-        }
-        form div{
 
-            font-family: monospace;
-            background-color: #2d2d2d;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            height: 300px;
-            resize: none;
-        }
-        .containers{
-            display: block;
-        }
-        .codeCompiler{
-            position: absolute;
-            top: 80%;
-            width: 100%;
-        }
-        #code {
-            font-family: "Courier New", Courier, monospace;
-            height: 500px;
-            width: 100%;
-        }
-        .ace_editor {
-            font-size: 20px;
-        }
-    </style>
     <link href="{{asset('assets/css/prism.css')}} " rel="stylesheet">
 @endsection
 @section('content')
         @include('layouts.sidebar')
         <div class="a text-center" role="alert"></div>
         <div class="selection">
-            @if(auth()->user()->course->name==='Data Structure')
+            @if(auth()->user()?->course?->name === 'Data Structure')
             <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off"  value="stack">
             <label class="btn btn-outline-success" for="success-outlined">Stack</label>
 

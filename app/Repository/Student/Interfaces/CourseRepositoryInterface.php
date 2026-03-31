@@ -4,7 +4,9 @@ namespace App\Repository\Student\Interfaces;
 
 interface CourseRepositoryInterface
 {
-    public function index();
+    public function getAll();
+
     public function enroll($id);
-    public function recentCourse($id);
+
+    public function find($id);
 }

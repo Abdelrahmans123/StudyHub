@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title','Response')
+@section('title','Add Course')
 @section('css')
     @include('layouts.CSS')
     @push('stylesheet')
@@ -23,32 +23,50 @@
             @csrf
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Course Name</label>
-                <input type="text" class="form-control" name="courseName" id="exampleInputEmail1">
+                <input type="text" class="form-control @error('courseName') is-invalid @enderror" name="courseName" id="exampleInputEmail1" value="{{ old('courseName') }}">
+                @error('courseName')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Course Description</label>
-                <input type="text" class="form-control" name="description" id="exampleInputPassword1">
+                <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="exampleInputPassword1" value="{{ old('description') }}">
+                @error('description')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Course Start At</label>
-                <input type="datetime-local" class="form-control" name="courseStart" id="exampleInputPassword1">
+                <input type="datetime-local" class="form-control @error('courseStart') is-invalid @enderror" name="courseStart" id="exampleInputPassword1" value="{{ old('courseStart') }}">
+                @error('courseStart')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Course End At</label>
-                <input type="datetime-local" class="form-control" name="courseEnd" id="exampleInputPassword1">
+                <input type="datetime-local" class="form-control @error('courseEnd') is-invalid @enderror" name="courseEnd" id="exampleInputPassword1" value="{{ old('courseEnd') }}">
+                @error('courseEnd')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
-                <label for="formFile" class="form-label">Default file input example</label>
-                <input class="form-control" type="file" id="formFile" name="file_name">
+                <label for="formFile" class="form-label">Course Image / File</label>
+                <input class="form-control @error('file_name') is-invalid @enderror" type="file" id="formFile" name="file_name">
+                @error('file_name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Instructor Name</label>
-                <select class="form-select" aria-label="Default select example" name="instructorId">
-                    <option selected>Choose Instructor</option>
+                <select class="form-select @error('instructorId') is-invalid @enderror" aria-label="Default select example" name="instructorId">
+                    <option value="" disabled @if(old('instructorId') === null) selected @endif>Choose Instructor</option>
                     @foreach($instructors as $instructor)
-                        <option value="{{$instructor->id}}">{{$instructor->name}}</option>
+                        <option value="{{$instructor->id}}" @if(old('instructorId') == $instructor->id) selected @endif>{{$instructor->name}}</option>
                     @endforeach
                 </select>
+                @error('instructorId')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -64,7 +82,5 @@
                 $('#example1').DataTable();
             });
         </script>
-        @toastr_js
-        @toastr_render
     @endpush
 @endsection

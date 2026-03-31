@@ -8,22 +8,22 @@ use App\Repository\Student\Interfaces\CourseRepositoryInterface;
 
 class CourseRepository implements CourseRepositoryInterface
 {
-
-    public function index()
+    public function getAll()
     {
-        $course=Course::all();
-        return view('Pages.Student.Course.index',compact('course'));
+        return Course::all();
     }
 
     public function enroll($id)
     {
-        $student=Student::findOrFail(auth()->user()->id);
-        $student->courseId=$id;
+        $student = Student::findOrFail(auth()->user()->id);
+        $student->courseId = $id;
         $student->save();
-        return redirect()->route('student.course.index')->with('success','Course is Enrolled Successfully');
+
+        return redirect()->route('student.course.index')->with('success', 'Course is Enrolled Successfully');
     }
-    public function recentCourse($id){
-        $course=Course::find($id);
-        return view('Pages.Student.Course.show',compact('course'));
+
+    public function find($id)
+    {
+        return Course::find($id);
     }
 }

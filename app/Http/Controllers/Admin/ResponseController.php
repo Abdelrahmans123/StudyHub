@@ -3,29 +3,41 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCourseRequest;
+use App\Models\Response as ResponseModel;
 use App\Repository\Admin\Interfaces\ResponseRepositoryInterface;
-
 
 class ResponseController extends Controller
 {
     protected ResponseRepositoryInterface $repository;
-    public function __construct(ResponseRepositoryInterface $repository){
-        $this->repository=$repository;
-    }
-    public function index()
+
+    public function __construct(ResponseRepositoryInterface $repository)
     {
-        return   $this->repository->index();
+        $this->repository = $repository;
     }
 
-    public function acceptedResponse(Request $request)
+    public function index()
     {
-        return  $this->repository->acceptedResponse($request);
+        $response = $this->repository->getAll();
+
+        return view('Pages.Admin.Courses.Response.index', compact('response'));
     }
-    public function notAcceptedResponse($id){
-        return   $this->repository->notAcceptedResponse($id);
+
+    public function addImage(ResponseModel $response)
+    {
+        $course = $response;
+        $instructors = $this->repository->getInstructors();
+
+        return view('Pages.Admin.Courses.Response.create', compact('course', 'instructors'));
     }
-    public function addImage($id){
-        return   $this->repository->addImage($id);
+
+    public function acceptedResponse(StoreCourseRequest $request)
+    {
+        return $this->repository->acceptedResponse($request);
+    }
+
+    public function notAcceptedResponse(ResponseModel $response)
+    {
+        return $this->repository->notAcceptedResponse($response->id);
     }
 }

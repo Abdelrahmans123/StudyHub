@@ -3,13 +3,7 @@
 @section('css')
     @include('layouts.CSS')
 @push('stylesheet')
-    <style>
 
-    table{
-        margin-top: 20px;
-    }
-
-    </style>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
 @endpush

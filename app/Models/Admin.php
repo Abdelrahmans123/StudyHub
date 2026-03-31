@@ -8,17 +8,21 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Admin extends Authenticatable
 {
     use HasFactory;
-    protected $guard='student';
-    protected $fillable=[
+
+    protected $guard = 'student';
+
+    protected $fillable = [
         'name',
         'email',
-        'password'
-    ];
-    protected $hidden=[
         'password',
-        'remember_token'
     ];
-    protected $casts=[
-        'email_verified_at'=>'datetime'
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
 }

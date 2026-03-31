@@ -3,28 +3,31 @@
 namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
-use App\Http\traits\ZoomMeeting;
-use App\Models\OnlineSession;
 use App\Repository\Instructor\Interfaces\OnlineSessionRepositoryInterface;
 use Illuminate\Http\Request;
-use MacsiDigital\Zoom\Facades\Zoom;
 
 class OnlineSessionController extends Controller
 {
     protected OnlineSessionRepositoryInterface $onlineSession;
-    public function __construct(OnlineSessionRepositoryInterface $onlineSession){
-        $this->onlineSession=$onlineSession;
+
+    public function __construct(OnlineSessionRepositoryInterface $onlineSession)
+    {
+        $this->onlineSession = $onlineSession;
     }
+
     public function index()
     {
-        return $this->onlineSession->index();
+        $onlineSession = $this->onlineSession->getAll();
+
+        return view('Pages.Instructor.OnlineSession.index', compact('onlineSession'));
     }
 
     public function create()
     {
-        return $this->onlineSession->create();
-    }
+        $course = $this->onlineSession->getInstructorCourses();
 
+        return view('Pages.Instructor.OnlineSession.create', compact('course'));
+    }
 
     public function store(Request $request)
     {

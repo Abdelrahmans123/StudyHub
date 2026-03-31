@@ -4,9 +4,9 @@ namespace App\Repository\Instructor\Interfaces;
 
 interface InstructorRepositoryInterface
 {
-    public function store($request);
+    public function find($id);
 
-    public function edit($id);
+    public function store($request);
 
     public function update($request);
 }

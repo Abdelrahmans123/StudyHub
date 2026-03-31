@@ -3,30 +3,32 @@
 namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
-use App\Models\Response;
+use App\Http\Requests\StoreInstructorResponseRequest;
 use App\Repository\Instructor\Interfaces\ResponseRepositoryInterface;
-use Illuminate\Http\Request;
 
 class ResponseController extends Controller
 {
     protected ResponseRepositoryInterface $response;
-    public function __construct(ResponseRepositoryInterface $response){
-        $this->response=$response;
-}
+
+    public function __construct(ResponseRepositoryInterface $response)
+    {
+        $this->response = $response;
+    }
+
     public function index()
     {
-        return  $this->response->index();
+        $response = $this->response->getAll();
+
+        return view('Pages.Instructor.Response.index', compact('response'));
     }
 
     public function create()
     {
-        return  $this->response->create();
+        return view('Pages.Instructor.Response.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreInstructorResponseRequest $request)
     {
-        return   $this->response->store($request);
+        return $this->response->store($request);
     }
-
-
 }

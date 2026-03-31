@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\Admin;
+use App\Models\Instructor;
+use App\Models\Student;
+use App\Models\User;
+
 return [
 
     /*
@@ -74,19 +79,19 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => User::class,
         ],
         'students' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Student::class,
+            'model' => Student::class,
         ],
         'instructors' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Instructor::class,
+            'model' => Instructor::class,
         ],
         'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'model' => Admin::class,
         ],
 
         // 'users' => [
