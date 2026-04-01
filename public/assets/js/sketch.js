@@ -263,39 +263,53 @@ function isIfConditionValid(condition, variables,variable,sKey) {
             // split the code into lines
             var codeLines = code.split("\n");
 
+            let animationDelay = 0;
+            y = 300;
+            x = 100;
+            
+            // reset visual elements
+            stackWall.length = 0;
+            queueWall.length = 0;
+            stackVariable.length = 0;
+            queueVariable.length = 0;
+            
+            if (conditionStatus) {
+                if (selectedAction === "stack") {
+                    stackWall.push(new Wall(240, 250, 20, 300, options)); // Left wall
+                    stackWall.push(new Wall(360, 250, 20, 300, options)); // Right wall
+                    stackWall.push(new Wall(300, 390, 140, 20, options)); // Bottom wall
+                } else if (selectedAction === "queue") {
+                    queueWall.push(new Wall(400, 300, 600, 50, options)); // Top wall
+                    queueWall.push(new Wall(400, 150, 600, 50, options)); // Bottom wall
+                }
+            }
+            
             // loop through each line of the code
             for (var i = 0; i < codeLines.length; i++) {
                 // get the current line of code
                 var codeLine = codeLines[i].trim();
 
                 // if the line starts with "var", add a new variable to the stack
-                const pattern = /let|const|var\s+(\w+)/; // Matches the variable declaration and captures the variable name
+                const pattern = /(?:let|const|var)\s+(\w+)/; // Matches the variable declaration and captures the variable name
                 const match = codeLine.match(pattern);
                     if (conditionStatus) {
                         if (selectedAction === "stack") {
 
                         if (match) {
                             const variableName = match[1];
-                            if (codeLine.startsWith("var") || codeLine.startsWith("let")) {
-                                stackVariable.push(new Box(700, y, 100, 80, variableName));
-                                y -= 100;
+                            if (codeLine.startsWith("var") || codeLine.startsWith("let") || codeLine.startsWith("const")) {
+                                // Exclude pushing a Box if the user names it exactly the generic structure name
+                                if (variableName !== "stack") {
+                                    stackVariable.push(new Box(700, y, 100, 80, variableName));
+                                    y -= 100;
+                                }
                             }
                             if (codeLine.includes("=")) {
-                                const value = codeLine.split("=")[1].trim();
+                                const value = codeLine.split("=")[1].trim().replace(";", "");
                                 updateVariableValue(variableName, value);
                             }
                         }
-
-                        if (match) {
-                            const variableName = match[1]; // Extract the variable name from the match
-
-                            if (variableName === "stack") {
-                                stackVariable.pop();
-                                y += 100;
-                                stackWall.push(new Wall(70, 300, 80, 400, options));
-                                stackWall.push(new Wall(500, 300, 80, 400, options));
-                            }
-                        }
+                        
                         if(codeLine.includes("if")){
 
                             const ifConditionRegex = /if\s*\((.*?)\)\s*\{/;
@@ -367,107 +381,110 @@ function isIfConditionValid(condition, variables,variable,sKey) {
                             }
                         }
                         if (codeLine.includes("push")) {
-                            const pattern = /push\((\w+)\)/; // Matches the push method and captures the argument
+                            const pattern = /push\(([^)]+)\)/; // Matches the push method and captures the argument
                             const match = codeLine.match(pattern);
 
                             if (match) {
-                                const argument = match[1];
+                                const argument = match[1].trim();
 
-                                for (let j = 0; j < stackVariable.length; j++) {
-                                    let z = -250;
-
-                                    if (stackVariable[j].variable === argument) {
-
-                                        stack.push(stackVariable[j].variable);
-                                        const delay = 5000 + j * 500;
-
-                                        // Call the Push function with the shape, y, and delay values
-                                        Push(stackVariable[j].body, z);
-
-                                        // Update the value of z after the transition
-                                        z -= 50;
-                                    }
+                                let matchingVariable = stackVariable.find(v => v.variable === argument);
+                                if (!matchingVariable) {
+                                    matchingVariable = new Box(700, y, 100, 80, argument);
+                                    stackVariable.push(matchingVariable);
+                                    y -= 100;
                                 }
+
+                                stack.push(matchingVariable.variable);
+                                
+                                let currentStackIndex = stack.length - 1;
+                                
+                                let thisDelay = animationDelay;
+                                setTimeout(function () {
+                                    matchingVariable.targetPos = { x: 300, y: 340 - (currentStackIndex * 80) };
+                                }, thisDelay);
+                                animationDelay += 2000;
                             }
                         }
 
                         // if the line starts with "pop", remove the top variable from the stack
                         if (codeLine.includes("pop")) {
-                            // Remove the top variable from the stack
-                            let py = 250;
-
                             if (stack.length > 0) {
-                                setTimeout(function () {
-                                    const poppedVariable = stack.pop();
-                                    // Find the corresponding Matter.js body for the popped variable
-                                    const matchingVariable = stackVariable.find(
-                                        (v) => v.variable === poppedVariable
-                                    );
-                                    // If a matching variable was found, call the Pop() function with its body
-                                    if (matchingVariable) {
-                                        setTimeout(function () {
-                                            setTimeout(function () {
-                                                Pop(matchingVariable.body, py);
-                                            }, 16000);
-                                            py += 50;
-                                        }, 5000);
-                                    }
-                                }, 2000);
+                                const poppedVariable = stack.pop(); // Execute synchronously!
+                                const matchingVariable = stackVariable.find((v) => v.variable === poppedVariable);
+                                
+                                if (matchingVariable) {
+                                    let thisDelay = animationDelay;
+                                    setTimeout(function () {
+                                        // Send it flying out to the right
+                                        matchingVariable.targetPos = { x: 700, y: 50 };
+                                    }, thisDelay);
+                                    animationDelay += 2000;
+                                }
                             }
                         }
                     } else if (selectedAction === "queue") {
                         if (match) {
                             const variableName = match[1];
-                            if (codeLine.startsWith("var")) {
-                                var value = codeLine.split("=")[1].trim();
-                                queueVariable.push(new Box(x, 50, 100, 80, variableName));
-                                x += 150;
-                            }
-                        }
-
-                        if (match) {
-                            const variableName = match[1]; // Extract the variable name from the match
-                            if (variableName === "queue") {
-                                queueVariable.pop();
-                                x -= 150;
-                                queueWall.push(new Wall(400, 300, 600, 50, options));
-                                queueWall.push(new Wall(400, 150, 600, 50, options));
+                            if (codeLine.startsWith("var") || codeLine.startsWith("let") || codeLine.startsWith("const")) {
+                                // Exclude pushing an extra Box if named 'queue'
+                                if (variableName !== "queue") {
+                                    queueVariable.push(new Box(x, 50, 100, 80, variableName));
+                                    x += 150;
+                                }
                             }
                         }
 
                         // if the line starts with "push", correctMove the top variable into the stack
                         if (codeLine.includes("push")) {
-                            const pattern = /push\((\w+)\)/; // Matches the push method and captures the argument
+                            const pattern = /push\(([^)]+)\)/; // Matches the push method and captures the argument
                             const match = codeLine.match(pattern);
 
                             if (match) {
-                                const argument = match[1];
+                                const argument = match[1].trim();
 
-                                for (let i = 0; i < queueVariable.length; i++) {
-                                    if (queueVariable[i].variable === argument) {
-                                        queue.push(queueVariable[i].variable);
-                                        setTimeout(function () {
-                                            Enqueue(queueVariable[i].body);
-                                        }, 5000 * i); // delay increases with each iteration
-                                    }
+                                let matchingVariable = queueVariable.find(v => v.variable === argument);
+                                if (!matchingVariable) {
+                                    matchingVariable = new Box(x, 50, 100, 80, argument);
+                                    queueVariable.push(matchingVariable);
+                                    x += 150;
                                 }
+
+                                queue.push(matchingVariable.variable);
+                                
+                                let currentQueueIndex = queue.length - 1;
+                                
+                                let thisDelay = animationDelay;
+                                setTimeout(function () {
+                                    // Queue placement (horizontal shift)
+                                    matchingVariable.targetPos = { x: 300 + (currentQueueIndex * 150), y: 225 };
+                                }, thisDelay);
+                                animationDelay += 2000;
                             }
                         }
 
-                        // if the line starts with "pop", remove the top variable from the stack
+                        // if the line starts with "shift", remove the top variable from the queue
                         if (codeLine.includes("shift")) {
-                            // Remove the top variable from the stack
                             if (queue.length > 0) {
-                                const poppedVariable = queue.shift();
-                                // Find the corresponding Matter.js body for the popped variable
-                                const matchingVariable = queueVariable.find(
-                                    (v) => v.variable === poppedVariable
-                                );
-                                // If a matching variable was found, call the Pop() function with its body
+                                const poppedVariable = queue.shift(); // Execute synchronously!
+                                const matchingVariable = queueVariable.find((v) => v.variable === poppedVariable);
+                                
                                 if (matchingVariable) {
+                                    let thisDelay = animationDelay;
                                     setTimeout(function () {
-                                        Dequeue(matchingVariable.body);
-                                    }, 16000);
+                                        // Send it flying out to the left correctly
+                                        matchingVariable.targetPos = { x: 50, y: 50 };
+                                    }, thisDelay);
+                                    animationDelay += 2000;
+                                    
+                                    // Shift the remaining queue elements visual positions synchronously as part of the animation chain
+                                    setTimeout(function () {
+                                        for(let k = 0; k < queue.length; k++) {
+                                            let qv = queueVariable.find(v => v.variable === queue[k]);
+                                            if(qv) {
+                                                qv.targetPos = { x: 300 + (k * 150), y: 225 };
+                                            }
+                                        }
+                                    }, thisDelay + 1000); // 1 second after pop starts
                                 }
                             }
                         }

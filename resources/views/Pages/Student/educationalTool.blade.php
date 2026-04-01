@@ -10,28 +10,50 @@
 @endsection
 @section('content')
         @include('layouts.sidebar')
-        <div class="a text-center" role="alert"></div>
-        <div class="selection">
-            @if(auth()->user()?->course?->name === 'Data Structure')
-            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off"  value="stack">
-            <label class="btn btn-outline-success" for="success-outlined">Stack</label>
+        
+    <div class="container-fluid py-4">
+        <div class="tool-container">
+            <div class="a text-center" role="alert"></div>
+            
+            <div class="card shadow-sm border-0 mb-3">
+                <div class="card-body text-center bg-light rounded-3">
+                    <h5 class="mb-3 text-muted">Select Data Structure to Visualize</h5>
+                    <div class="selection btn-group" role="group">
+                        @if(auth()->user()?->course?->name === 'Data Structure')
+                        <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off"  value="stack">
+                        <label class="btn btn-outline-success px-4" for="success-outlined">Stack</label>
 
-            <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off" value="queue">
-            <label class="btn btn-outline-danger" for="danger-outlined">Queue</label>
+                        <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off" value="queue">
+                        <label class="btn btn-outline-danger px-4" for="danger-outlined">Queue</label>
 
-            <input type="radio" class="btn-check" name="options-outlined" id="primary-outlined" autocomplete="off" value="Linked_List">
-            <label class="btn btn-outline-primary" for="primary-outlined">Linked List</label>
-                <input type="radio" class="btn-check" name="options-outlined" id="warning-outlined" autocomplete="off" value="Binary_Search_Tree">
-                <label class="btn btn-outline-warning" for="warning-outlined">Binary Search Tree</label>
-                @endif
+                        <input type="radio" class="btn-check" name="options-outlined" id="primary-outlined" autocomplete="off" value="Linked_List">
+                        <label class="btn btn-outline-primary px-4" for="primary-outlined">Linked List</label>
 
+                        <input type="radio" class="btn-check" name="options-outlined" id="warning-outlined" autocomplete="off" value="Binary_Search_Tree">
+                        <label class="btn btn-outline-warning px-4" for="warning-outlined">Binary Search Tree</label>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-wrapper">
+                <div id="canvas-container"></div>
+            </div>
+
+            <div class="editor-wrapper mt-3">
+                <div class="editor-header">
+                    <h5 class="text-secondary"><i class="fas fa-code me-2"></i>Code Editor</h5>
+                    <button type="button" id="run-button" class="btn btn-success btn-sm px-4 shadow-sm" onclick="runCode()">
+                        <i class="fas fa-play me-2"></i>Run
+                    </button>
+                </div>
+                <div class="codeCompiler">
+                    <div id="code"></div>
+                </div>
+            </div>
+            
         </div>
-        <div id="canvas-container"></div>
-        <div class="codeCompiler">
-            <div id="code"></div>
-{{--        <button id="run-button" onclick="runCode()">Run Code</button>--}}
-            <button type="button" id="run-button" class="btn btn-success mt-2" onclick="runCode()">Run</button>
-        </div>
+    </div>
 @endsection
 @section('js')
     @include('layouts.JS')

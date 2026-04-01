@@ -1,11 +1,12 @@
 function Dequeue(shape) {
-    setTimeout(function () {
-        Body.translate(shape, {x:100, y: 0});
-    }, 2000);
-    setTimeout(function () {
-        Body.translate(shape, {x: 0, y: -175});
-    }, 1500);
-    setTimeout(function () {
-        Body.translate(shape, {x: -100, y:0});
-    }, 1000);
+    if (shape.boxRef) {
+        let currentX = shape.position.x;
+        let currentY = shape.position.y;
+        shape.boxRef.targetPos = { 
+            x: currentX, 
+            y: currentY - 175 
+        };
+    } else {
+        Body.translate(shape, { x: 0, y: -175 });
+    }
 }
