@@ -18,8 +18,11 @@
     @include('layouts.flashMessages')
     <div class="containers">
         @include('layouts.Admin.sidebar')
-        <h1>Add New Course</h1>
-        <form method="POST" action="{{url('admin/courses/store')}}" enctype="multipart/form-data">
+        <div class="mt-4">
+            <h1 class="mb-4">Add New Course</h1>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="POST" action="{{url('admin/courses/store')}}" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Course Name</label>
@@ -68,8 +71,11 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @section('js')

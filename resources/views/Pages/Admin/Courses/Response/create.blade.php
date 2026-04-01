@@ -18,8 +18,11 @@
     @include('layouts.flashMessages')
     <div class="containers">
         @include('layouts.Admin.sidebar')
-        <h1>Add New Course</h1>
-        <form method="POST" action="{{route('admin.addCourse')}}" enctype="multipart/form-data">
+        <div class="mt-4">
+            <h1 class="mb-4">Add New Course</h1>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="POST" action="{{route('admin.addCourse')}}" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" value="{{$course->id}}">
             <div class="mb-3">
@@ -53,8 +56,11 @@
                     @endforeach
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @section('js')
